@@ -6,45 +6,42 @@ import adminRouter from './router/adminRoutes.js';
 import projectRouter from './router/projectRoutes.js';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
-import axios from "axios";
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
-
-export const getUsers = async () => {
-  const res = await axios.get(`${API_URL}/api/users`, { withCredentials: true });
-  return res.data;
-};
-
 
 dotenv.config();
-
 const app = express();
 
-// const PORT = process.env.PORT || 3000;
+// Ambil port dari Railway
+const PORT = process.env.PORT || 5000;
 
-app.get("/", (req, res) => {
-  res.send("Backend API is running");
-});
-
+// Connect DB
 await connectedDB();
 
+// Middleware
+app.use(express.json());
+app.use(cookieParser());
+
+// CORS setup
 app.use(
   cors({
     origin: [
-      "http://localhost:3000",              // untuk dev lokal
-      "https://backend2-production-923e.up.railway.app/",  // domain vercel
+      "http://localhost:3000",               // frontend local dev
+      "https://frontend-peach-nu-40.vercel.app/",   // frontend di vercel
     ],
     credentials: true,
   })
 );
 
+// Root test route
+app.get("/", (req, res) => {
+  res.send("Backend API is running");
+});
 
-app.use(express.json());
-app.use(cookieParser());
-app.use(userRouter);
-app.use(adminRouter);
-app.use(projectRouter);
+// Routes
+app.use("/api/users", userRouter);
+app.use("/api/admin", adminRouter);
+app.use("/api/projects", projectRouter);
 
+// Start server
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+  console.log(`Server is running on port ${PORT}`);
 });
