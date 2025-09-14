@@ -25,7 +25,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:3000",               // frontend local dev
-      "https://frontend-peach-nu-40.vercel.app/",   // frontend di vercel
+      "https://frontend-peach-nu-40.vercel.app",   // frontend di vercel
     ],
     credentials: true,
   })
@@ -37,9 +37,9 @@ app.get("/", (req, res) => {
 });
 
 // Routes
-app.use("/api/users", userRouter);
-app.use("/api/admin", adminRouter);
-app.use("/api/projects", projectRouter);
+app.use("/api/users", userRouter);      // routes user
+app.use("/api/admin", adminRouter);     // routes admin
+app.use("/api/projects", projectRouter); // routes project
 
 // Start server
 app.listen(PORT, () => {

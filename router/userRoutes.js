@@ -13,13 +13,14 @@ import verifyToken from '../middleware/auth.js';
 
 const userRouter = express.Router();
 
-userRouter.post('/api/login', login);
-userRouter.post('/api/register', register);
-userRouter.get('/api/getUsers', getAllUsers);
-userRouter.get('/api/user/:id', verifyToken, getUser);
-userRouter.delete('/api/user/:id', verifyToken, deleteUser);
-userRouter.put('/api/user/:id', verifyToken, updateUser);
-userRouter.post('/api/getToken', getToken);
-userRouter.post('/api/logout', logout);
+// Hapus prefix /api karena di server.js sudah ada /api/users
+userRouter.post('/login', login);
+userRouter.post('/register', register);
+userRouter.get('/getUsers', getAllUsers);
+userRouter.get('/:id', verifyToken, getUser);
+userRouter.delete('/:id', verifyToken, deleteUser);
+userRouter.put('/:id', verifyToken, updateUser);
+userRouter.post('/getToken', getToken);
+userRouter.post('/logout', logout);
 
 export default userRouter;
